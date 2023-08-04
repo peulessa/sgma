@@ -17,20 +17,22 @@
 import Tabela from "components/Tabela.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from 'axios';
+import { api } from "../boot/axios";
 
 fetchData();
 function fetchData() {
-      axios.get('http://10.4.22.30:3000/alunos')
-        .then(response => {
-          // O servidor respondeu com sucesso
-          console.log(response.data);
-        })
-        .catch(error => {
-          // Ocorreu um erro ao fazer a requisição
-          console.error(error);
-        });
-      }
+  api
+    .get("alunos")
+    .then((response) => {
+      tableData.value = response.data;
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+const tableData = ref([]);
 
 const router = useRouter();
 
@@ -68,14 +70,5 @@ const columns = ref([
     field: "delete",
     align: "center",
   },
-]);
-
-const tableData = ref([
-  { id: 0 , name: "Fabinho Popó", media: 6, cpf: "000.000.000-00" },
-  { id: 1 , name: "Jack Wick", media: 6, cpf: "000.000.000-00" },
-  { id: 2 , name: "Samba da Polly", media: 6, cpf: "000.000.000-00" },
-  { id: 3 , name: "Luiz Molejo", media: 6, cpf: "000.000.000-00" },
-  { id: 4 , name: "Matheuzão", media: 6, cpf: "000.000.000-00" },
-  { id: 5 , name: "Pedrinho Gogó", media: 6, cpf: "000.000.000-00" },
 ]);
 </script>
